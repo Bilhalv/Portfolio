@@ -17,7 +17,7 @@
     "next": "^15.1.5",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "vercel": "^39.3.0"
+    "vercel": "^39.4.2"
   },
   "devDependencies": {
     "@types/i18next": "^12.1.0",
