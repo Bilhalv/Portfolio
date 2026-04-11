@@ -98,8 +98,8 @@ const content = {
       liveLabel: "Case Study",
       cardTitle: "Minha Feira",
       cardDesc:
-        "Web platform for market discovery, vendor onboarding, and public schedule visibility with practical location-based browsing.",
-      tags: ["React", "Next.js", "TailwindCSS", "Maps"],
+        "Mobile app for finding local markets in Pelotas. I worked on login/register/new-password validation, componentization and API-call refactors, map-library improvements, and NativeWind integration.",
+      tags: ["React Native", "Expo", "NativeWind", "Node.js", "Prisma", "Maps"],
       comingTitle: "Building Next",
       comingDesc:
         "A new full-stack project focused on robust architecture, clean APIs, and production-ready UX is in progress.",
@@ -235,8 +235,8 @@ const content = {
       liveLabel: "Estudo de Caso",
       cardTitle: "Minha Feira",
       cardDesc:
-        "Plataforma web para descoberta de feiras, cadastro de feirantes e exibição pública de horários com navegação por localização.",
-      tags: ["React", "Next.js", "TailwindCSS", "Mapas"],
+        "Aplicativo para encontrar feiras locais em Pelotas. Trabalhei em validação de login/cadastro/nova senha, componentização e refatoração das chamadas de API, melhorias na biblioteca de mapas e integração com NativeWind.",
+      tags: ["React Native", "Expo", "NativeWind", "Node.js", "Prisma", "Mapas"],
       comingTitle: "Próximo Projeto",
       comingDesc:
         "Um novo projeto full-stack focado em arquitetura robusta, APIs limpas e UX pronta para produção.",
@@ -618,7 +618,7 @@ export default function Home() {
           <div className="mt-6 grid gap-5 md:grid-cols-2">
             <a
               className="group rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-lg dark:border-slate-700 dark:bg-slate-900"
-              href="https://github.com/FeirasProjeto/Minha-Feira"
+              href="https://gitlab.com/senac-projetos-de-desenvolvimento/2025-debora-pedro-diego/minha-feira-frontend"
               target="_blank"
               rel="noopener noreferrer"
             >
