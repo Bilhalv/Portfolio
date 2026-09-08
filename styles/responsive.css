@@ -1,0 +1,200 @@
+/* Responsive layer: reduced-motion overrides and layout breakpoints.
+   Tokens/page chrome live in base.css; component styles in components.css. */
+
+/* ---------------------------------------------------------------------------
+   Reduced motion
+   --------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+  .project-card,
+  .about-copy,
+  .timeline-item,
+  .skill-group,
+  .contact-links {
+    opacity: 1;
+    filter: none;
+    transform: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Tablet / narrow layout (<=850px)
+   --------------------------------------------------------------------------- */
+@media (max-width: 850px) {
+  .nav-bar {
+    flex-wrap: wrap;
+  }
+  .brand {
+    margin-right: 0;
+  }
+  .nav-links {
+    order: 3;
+    width: 100%;
+    justify-content: flex-start;
+    overflow-x: auto;
+  }
+  .hero {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    min-height: auto;
+    padding-top: 5rem;
+  }
+  .hero-panel {
+    max-width: 520px;
+  }
+  .scroll-console {
+    right: 0.75rem;
+  }
+  .skills-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Mobile layout (<=560px)
+   --------------------------------------------------------------------------- */
+@media (max-width: 560px) {
+  .site-header {
+    top: 0.5rem;
+    margin-top: 0.5rem;
+  }
+  .nav-bar {
+    gap: 0.6rem;
+    padding: 0.65rem;
+  }
+  .control-label {
+    display: none;
+  }
+  .main-content {
+    width: min(100% - 1.25rem, 1120px);
+    padding-bottom: 4.5rem;
+  }
+  .scroll-console {
+    top: auto;
+    right: 0.75rem;
+    bottom: calc(1rem + env(safe-area-inset-bottom));
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    transform: none;
+  }
+  .scroll-console-label {
+    writing-mode: horizontal-tb;
+    transform: none;
+  }
+  .scroll-progress-track {
+    display: block;
+    width: 4rem;
+    height: 2px;
+  }
+  .scroll-progress-track span {
+    width: var(--scroll-progress);
+    height: 100%;
+  }
+  .waypoint-rail {
+    display: flex;
+    gap: 0.4rem;
+    padding: 0.45rem;
+    background: var(--surface);
+    background: color-mix(in srgb, var(--surface) 86%, transparent);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+  }
+  .waypoint span {
+    display: none;
+  }
+  .waypoint i {
+    width: 0.45rem;
+    height: 0.45rem;
+  }
+  .waypoint {
+    min-width: 2rem;
+    min-height: 2rem;
+    padding: 0.4rem;
+  }
+  .hero {
+    padding: 4rem 0;
+  }
+  h1 {
+    font-size: clamp(3.5rem, 18vw, 5.5rem);
+  }
+  .hero-badges {
+    display: grid;
+  }
+  .project-grid,
+  .about-section {
+    grid-template-columns: 1fr;
+  }
+  .content-section {
+    padding: 4rem 0;
+  }
+  .skills-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .skill-group {
+    padding: 1rem;
+  }
+  .skill-group h3 {
+    min-height: auto;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Print
+   --------------------------------------------------------------------------- */
+@media print {
+  .site-header,
+  .scroll-console,
+  .page-glow,
+  #decorations,
+  .skip-link {
+    display: none;
+  }
+  body {
+    background: #fff;
+    color: #000;
+  }
+  .main-content {
+    width: 100%;
+  }
+  .content-section {
+    border-top-color: #ddd;
+  }
+  .hero {
+    min-height: auto;
+    padding: 2rem 0;
+  }
+  .hero-panel,
+  .project-card,
+  .skill-group,
+  .timeline-item {
+    background: none;
+    border-color: #ccc;
+    box-shadow: none;
+  }
+  .project-card,
+  .about-copy,
+  .timeline-item,
+  .skill-group,
+  .contact-links {
+    opacity: 1;
+    filter: none;
+    transform: none;
+  }
+  a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.75em;
+  }
+}

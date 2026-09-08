@@ -1,0 +1,164 @@
+/* Background decoration layer: grid backdrop, ambient tracer lines, and the
+   sparkle dots. Behavior is tuned via decorations/config.js (grid step and
+   line/dot timing land here as root variables / inline styles). */
+
+/* ---------------------------------------------------------------------------
+   Grid backdrop
+   --------------------------------------------------------------------------- */
+#decorations {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+#decorations::before {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: var(--grid-step) var(--grid-step);
+  content: "";
+}
+
+/* ---------------------------------------------------------------------------
+   Ambient tracer lines
+   --------------------------------------------------------------------------- */
+.ambient-line {
+  position: absolute;
+  z-index: 1;
+  width: 20rem;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+  /* Start off-canvas; each variant picks a sign/direction via its keyframes. */
+  transform: translate3d(-120vw, 0, 0);
+  animation: horizontal-tracer 25s linear infinite;
+}
+.ambient-line::after {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, var(--line-color, var(--accent)), transparent);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--line-color, var(--accent)) 55%, transparent);
+  content: "";
+}
+.ambient-line-two,
+.ambient-line-four {
+  width: 1px;
+  height: 20rem;
+  transform: translate3d(0, -120vh, 0);
+  animation-name: vertical-tracer;
+}
+.ambient-line-two::after,
+.ambient-line-four::after {
+  background: linear-gradient(180deg, transparent, var(--line-color, var(--cyan)), transparent);
+}
+.ambient-line-one {
+  top: calc(var(--grid-step) * 2);
+  --line-color: var(--accent);
+}
+.ambient-line-two {
+  left: calc(var(--grid-step) * 3);
+  --line-color: var(--cyan);
+  animation-delay: -8s;
+  animation-duration: 20s;
+}
+.ambient-line-three {
+  top: calc(var(--grid-step) * 5);
+  width: 28rem;
+  --line-color: #c084fc;
+  animation-delay: -13s;
+  animation-duration: 26s;
+  animation-name: horizontal-tracer-reverse;
+  transform: translate3d(220vw, 0, 0);
+}
+.ambient-line-four {
+  left: calc(var(--grid-step) * 7);
+  height: 16rem;
+  --line-color: #818cf8;
+  animation-delay: -4s;
+  animation-duration: 23s;
+  animation-name: vertical-tracer-reverse;
+  transform: translate3d(0, 220vh, 0);
+}
+.ambient-line-five {
+  top: calc(var(--grid-step) * 9);
+  width: 16rem;
+  --line-color: var(--accent);
+  animation-delay: -10s;
+  animation-duration: 14s;
+}
+
+/* ---------------------------------------------------------------------------
+   Sparkle dots
+   --------------------------------------------------------------------------- */
+/* The dot is a 1px anchor placed on a grid joint; the .sparkle-svg inside is
+   centered on it. Sizes come from per-dot --sparkle-* variables set in JS. */
+.grid-dot {
+  position: absolute;
+  z-index: 2;
+  width: 1px;
+  height: 1px;
+  margin: -0.5px 0 0 -0.5px;
+  opacity: 0;
+  transform: scale(0.65);
+  transition:
+    opacity 800ms cubic-bezier(0.4, 0, 0.2, 1),
+    transform 800ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+/* translate(-50%, -50%) centers the SVG on the 1px dot. Percentages resolve
+   against the SVG's own box here (it has a size), unlike the margin approach,
+   which resolves against the 1px parent and would skew the centering. */
+.sparkle-svg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: block;
+  width: calc(var(--sparkle-scale, 1) * 1rem * var(--sparkle-x, 2.8));
+  height: calc(var(--sparkle-scale, 1) * 1rem * var(--sparkle-y, 2.8));
+  transform: translate(-50%, -50%);
+  overflow: visible;
+  filter: drop-shadow(0 0 0.55rem currentColor);
+}
+.grid-dot.is-lit {
+  opacity: 0.72;
+  transform: scale(1.2);
+}
+
+/* ---------------------------------------------------------------------------
+   Tracer keyframes
+   --------------------------------------------------------------------------- */
+@keyframes horizontal-tracer {
+  0% { opacity: 0; transform: translate3d(-120vw, 0, 0); }
+  12% { opacity: 0.5; }
+  68% { opacity: 0.22; }
+  100% { opacity: 0; transform: translate3d(220vw, 0, 0); }
+}
+@keyframes horizontal-tracer-reverse {
+  0% { opacity: 0; transform: translate3d(220vw, 0, 0); }
+  12% { opacity: 0.5; }
+  68% { opacity: 0.22; }
+  100% { opacity: 0; transform: translate3d(-120vw, 0, 0); }
+}
+@keyframes vertical-tracer {
+  0% { opacity: 0; transform: translate3d(0, -120vh, 0); }
+  12% { opacity: 0.5; }
+  68% { opacity: 0.22; }
+  100% { opacity: 0; transform: translate3d(0, 220vh, 0); }
+}
+@keyframes vertical-tracer-reverse {
+  0% { opacity: 0; transform: translate3d(0, 220vh, 0); }
+  12% { opacity: 0.5; }
+  68% { opacity: 0.22; }
+  100% { opacity: 0; transform: translate3d(0, -120vh, 0); }
+}
+
+/* ---------------------------------------------------------------------------
+   Reduced motion
+   --------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .ambient-line { animation: none; opacity: 0.08; transform: none; }
+  .grid-dot { transition: none; }
+  .grid-dot.is-lit { opacity: 0.12; transform: none; }
+}

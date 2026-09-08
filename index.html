@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Pedro Bilhalva Oliveira's software development portfolio."
+    />
+    <title>Pedro Bilhalva Oliveira | Portfolio</title>
+    <link rel="icon" type="image/svg+xml" href="code-mark.svg" />
+    <!-- Kept in sync with the active theme by setTheme() in scripts/site.js. -->
+    <meta name="theme-color" content="#f5f7f3" />
+    <!-- Social/link-preview meta (set og:url once the site is live at a URL). -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Pedro Bilhalva Oliveira | Portfolio" />
+    <meta
+      property="og:description"
+      content="Software Engineering Technician Student building practical, scalable products."
+    />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Pedro Bilhalva Oliveira | Portfolio" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <!-- CSS load order: tokens/chrome (base) -> components -> responsive, then
+         the background decorations layer. Keep this order; later files can
+         override earlier ones at equal specificity. -->
+    <link rel="stylesheet" href="styles/base.css" />
+    <link rel="stylesheet" href="styles/components.css" />
+    <link rel="stylesheet" href="styles/responsive.css" />
+    <link rel="stylesheet" href="decorations/decorations.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <div class="page-glow page-glow-one" aria-hidden="true"></div>
+    <div class="page-glow page-glow-two" aria-hidden="true"></div>
+    <div id="decorations" aria-hidden="true"></div>
+    <aside class="scroll-console" aria-label="Page progress">
+      <div class="scroll-console-label">
+        SCROLL / <span id="scroll-percent">00%</span>
+      </div>
+      <div class="scroll-progress-track" role="progressbar" aria-label="Page reading progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+        <span id="scroll-progress"></span>
+      </div>
+      <div class="waypoint-rail" id="waypoint-rail"></div>
+    </aside>
+
+    <header class="site-header">
+      <nav class="nav-bar" aria-label="Primary navigation">
+        <a class="brand" href="#title" aria-label="Pedro Bilhalva Oliveira home">
+          <img src="code-mark.svg" alt="" aria-hidden="true" />
+          <span class="sr-only">Pedro Bilhalva Oliveira</span>
+        </a>
+        <div class="nav-links" id="nav-links"></div>
+        <div class="nav-controls">
+          <button
+            class="control-button"
+            id="theme-toggle"
+            type="button"
+            aria-label="Switch to dark mode"
+            aria-pressed="false"
+          >
+            <span aria-hidden="true" id="theme-icon">◐</span
+            ><span class="control-label" id="theme-label">Light</span>
+          </button>
+          <button
+            class="control-button language-button"
+            id="language-toggle"
+            type="button"
+            aria-label="Switch language to Portuguese"
+            aria-pressed="false"
+          >
+            EN
+          </button>
+        </div>
+      </nav>
+    </header>
+
+    <main id="main-content" class="main-content">
+      <section
+        id="title"
+        class="hero section-anchor"
+        data-section-tone="violet"
+      >
+        <div class="hero-copy">
+          <p class="eyebrow">
+            <span class="status-dot"></span
+            ><span data-content="hero.role"></span>
+          </p>
+          <h1>Pedro Bilhalva<br /><em>Oliveira</em></h1>
+          <p class="hero-summary" data-content="hero.summary"></p>
+          <div class="hero-badges">
+            <span class="badge"
+              ><b>◎</b><span data-content="hero.badgeLocation"></span
+            ></span>
+            <span class="badge"
+              ><b>✦</b><span data-content="hero.badgeGrad"></span
+            ></span>
+            <span class="badge"
+              ><b>+</b><span data-content="hero.badgeCurrent"></span
+            ></span>
+          </div>
+        </div>
+        <aside class="hero-panel">
+          <div class="system-readout">
+            <span class="readout-dot"></span>
+            <span data-content="hero.statusLabel"></span>
+            <strong data-content="hero.statusValue"></strong>
+          </div>
+          <p class="panel-kicker" data-content="hero.focusTitle"></p>
+          <ul class="focus-list" id="focus-list"></ul>
+          <div class="hero-actions">
+            <button
+              class="button button-primary"
+              type="button"
+              data-scroll-to="projects"
+            >
+              <span data-content="hero.ctaProjects"></span
+              ><span aria-hidden="true">↗</span>
+            </button>
+            <button
+              class="button button-secondary"
+              type="button"
+              data-scroll-to="contact"
+              data-content="hero.ctaContact"
+            ></button>
+          </div>
+        </aside>
+      </section>
+
+      <section
+        id="projects"
+        class="content-section section-anchor"
+        data-section-tone="indigo"
+      >
+        <div class="section-heading">
+          <span class="section-number">01</span>
+          <h2 data-content="projects.title"></h2>
+        </div>
+        <div class="project-grid">
+          <a
+            class="project-card project-card-featured"
+            href="https://gitlab.com/senac-projetos-de-desenvolvimento/2025-debora-pedro-diego/minha-feira-frontend"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <div class="card-topline">
+              <span data-content="projects.liveLabel"></span
+              ><span aria-hidden="true">↗</span>
+            </div>
+            <h3 data-content="projects.cardTitle"></h3>
+            <p data-content="projects.cardDesc"></p>
+            <div class="tag-list" id="project-tags"></div>
+          </a>
+          <article class="project-card project-card-next">
+            <div class="card-topline">
+              <span>2026</span><span class="pulse-line"></span>
+            </div>
+            <h3 data-content="projects.comingTitle"></h3>
+            <p data-content="projects.comingDesc"></p>
+          </article>
+        </div>
+      </section>
+
+      <section
+        id="about"
+        class="content-section section-anchor about-section"
+        data-section-tone="lilac"
+      >
+        <div class="section-heading">
+          <span class="section-number">02</span>
+          <h2 data-content="about.title"></h2>
+        </div>
+        <p class="about-copy" data-content="about.text"></p>
+      </section>
+
+      <section
+        id="experience"
+        class="content-section section-anchor"
+        data-section-tone="violet"
+      >
+        <div class="section-heading">
+          <span class="section-number">03</span>
+          <h2 data-content="experience.title"></h2>
+        </div>
+        <div class="timeline" id="experience-list"></div>
+      </section>
+
+      <section
+        id="education"
+        class="content-section section-anchor"
+        data-section-tone="indigo"
+      >
+        <div class="section-heading">
+          <span class="section-number">04</span>
+          <h2 data-content="education.title"></h2>
+        </div>
+        <div class="timeline timeline-cyan" id="education-list"></div>
+      </section>
+
+      <section
+        id="skills"
+        class="content-section section-anchor"
+        data-section-tone="lilac"
+      >
+        <div class="section-heading">
+          <span class="section-number">05</span>
+          <h2 data-content="skills.title"></h2>
+        </div>
+        <div class="skills-grid" id="skills-list"></div>
+      </section>
+
+      <section
+        id="contact"
+        class="content-section section-anchor contact-section"
+        data-section-tone="violet"
+      >
+        <div class="section-heading">
+          <span class="section-number">06</span>
+          <h2 data-content="contact.title"></h2>
+        </div>
+        <p class="contact-copy" data-content="contact.subtitle"></p>
+        <div class="contact-links">
+          <a
+            class="button button-primary"
+            href="mailto:pedrobilhalvaoliveira@gmail.com"
+            ><span aria-hidden="true">@</span
+            ><span data-content="contact.email"></span
+          ></a>
+          <a
+            class="button button-secondary"
+            href="https://linkedin.com/in/pedrobilhalva"
+            target="_blank"
+            rel="noopener noreferrer"
+            ><span aria-hidden="true">in</span
+            ><span data-content="contact.linkedin"></span
+          ></a>
+          <a
+            class="button button-secondary"
+            href="https://github.com/bilhalv"
+            target="_blank"
+            rel="noopener noreferrer"
+            ><span aria-hidden="true">GH</span
+            ><span data-content="contact.github"></span
+          ></a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      © <span id="year"></span> Pedro Bilhalva Oliveira.
+      <span data-content="footer"></span>
+      · <a href="#title" aria-label="Back to top">↥</a>
+    </footer>
+    <noscript>
+      <section class="no-script-fallback" aria-labelledby="no-script-title">
+        <h2 id="no-script-title">Portfolio overview</h2>
+        <p>Pedro Bilhalva Oliveira is a frontend developer and Software Engineering Technician student focused on practical, scalable products.</p>
+        <h3>Experience</h3>
+        <p><strong>Frontend Developer</strong> | Freelance | Remote | July 2025 - Present</p>
+        <p><strong>IT Assistant</strong> | ASSTBM | 2023 - Current</p>
+        <h3>Education</h3>
+        <p>Software Engineering Technician at Centennial College. Technologist in System Analysis and Development at UniSenac.</p>
+        <h3>Contact</h3>
+        <p><a href="mailto:pedrobilhalvaoliveira@gmail.com">pedrobilhalvaoliveira@gmail.com</a> · <a href="https://github.com/bilhalv">GitHub</a> · <a href="https://linkedin.com/in/pedrobilhalva">LinkedIn</a></p>
+      </section>
+    </noscript>
+    <div class="sr-only" id="status-announcer" aria-live="polite" aria-atomic="true"></div>
+    <!-- JS load order: content data first (site.js depends on the global
+         `content` object), then site behavior, then the decorations layer,
+         which reads config.js for its tuning values. -->
+    <script src="scripts/content.js"></script>
+    <script src="scripts/site.js"></script>
+    <script src="decorations/config.js"></script>
+    <script src="decorations/decorations.js"></script>
+  </body>
+</html>
