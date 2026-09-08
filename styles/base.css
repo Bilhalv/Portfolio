@@ -32,6 +32,8 @@
   --text-meta: 0.78rem;
   --grid-step: 4rem;
   --grid-line: rgba(139, 92, 246, 0.035);
+  /* Page column width in grid cells; follows decorations/config.js gridStep. */
+  --content-width: calc(var(--grid-step) * 18);
 }
 
 /* ---------------------------------------------------------------------------
@@ -42,9 +44,10 @@
 }
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 7rem;
+  scroll-padding-top: calc(var(--grid-step) * 2);
 }
 body {
+  position: relative;
   margin: 0;
   min-width: 320px;
   background: var(--paper);
@@ -162,7 +165,7 @@ a:focus-visible {
   border: 0;
 }
 .no-script-fallback {
-  width: min(1120px, calc(100% - 2rem));
+  width: min(var(--content-width), calc(100% - 2rem));
   padding: 2rem;
   margin: 0 auto 4rem;
   color: var(--ink);
@@ -208,8 +211,10 @@ a:focus-visible {
    --------------------------------------------------------------------------- */
 .scroll-console {
   position: fixed;
+  /* Sit one grid cell inside the content column's right margin, so the rail
+     aligns to the lattice instead of a hardcoded pixel gutter. */
   top: 50%;
-  right: max(1rem, calc((100vw - 1250px) / 2));
+  right: max(0.75rem, calc((100vw - var(--content-width)) / 2 - var(--grid-step)));
   z-index: 15;
   display: grid;
   gap: 0.75rem;
@@ -291,10 +296,10 @@ a:focus-visible {
    --------------------------------------------------------------------------- */
 .site-header {
   position: sticky;
-  top: 1rem;
+  top: calc(var(--grid-step) / 2);
   z-index: 20;
-  width: min(1120px, calc(100% - 2rem));
-  margin: 1rem auto 0;
+  width: min(var(--content-width), calc(100% - 2rem));
+  margin: calc(var(--grid-step) / 2) auto 0;
 }
 .nav-bar {
   display: flex;
@@ -380,20 +385,20 @@ a:focus-visible {
 .main-content {
   position: relative;
   z-index: 1;
-  width: min(1120px, calc(100% - 2rem));
+  width: min(var(--content-width), calc(100% - 2rem));
   margin: 0 auto;
 }
 .content-section {
   --section-tone: var(--accent);
   position: relative;
-  scroll-margin-top: 7rem;
-  padding: 5.5rem 0;
+  scroll-margin-top: calc(var(--grid-step) * 2);
+  padding: calc(var(--grid-step) * 1.5) 0;
   border-top: 1px solid var(--line);
 }
 .site-footer {
   position: relative;
   z-index: 1;
-  width: min(1120px, calc(100% - 2rem));
+  width: min(var(--content-width), calc(100% - 2rem));
   padding: 1.4rem 0 3rem;
   margin: 0 auto;
   color: var(--muted);

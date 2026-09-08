@@ -20,8 +20,8 @@
   grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.65fr);
   gap: 5rem;
   align-items: end;
-  min-height: 680px;
-  padding: 7rem 0 6rem;
+  min-height: calc(var(--grid-step) * 10.5);
+  padding: calc(var(--grid-step) * 2) 0 calc(var(--grid-step) * 1.5);
 }
 .eyebrow {
   display: inline-flex;
@@ -197,7 +197,7 @@ body.dark .content-section[data-section-tone="lilac"] {
   display: flex;
   align-items: baseline;
   gap: 1.2rem;
-  margin-bottom: 2.5rem;
+  margin-bottom: calc(var(--grid-step) / 2);
 }
 .section-number {
   font-family: "DM Mono", monospace;
@@ -436,7 +436,7 @@ body.dark .content-section[data-section-tone="lilac"] {
    Contact
    --------------------------------------------------------------------------- */
 .contact-section {
-  padding-bottom: 7rem;
+  padding-bottom: calc(var(--grid-step) * 2);
 }
 .contact-copy {
   margin-bottom: 2rem;

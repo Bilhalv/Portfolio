@@ -47,7 +47,7 @@
     grid-template-columns: 1fr;
     gap: 2rem;
     min-height: auto;
-    padding-top: 5rem;
+    padding-top: calc(var(--grid-step));
   }
   .hero-panel {
     max-width: 520px;
@@ -76,7 +76,7 @@
     display: none;
   }
   .main-content {
-    width: min(100% - 1.25rem, 1120px);
+    width: min(100% - 1.25rem, var(--content-width));
     padding-bottom: 4.5rem;
   }
   .scroll-console {
@@ -125,7 +125,7 @@
     padding: 0.4rem;
   }
   .hero {
-    padding: 4rem 0;
+    padding: calc(var(--grid-step)) 0;
   }
   h1 {
     font-size: clamp(3.5rem, 18vw, 5.5rem);
@@ -138,7 +138,7 @@
     grid-template-columns: 1fr;
   }
   .content-section {
-    padding: 4rem 0;
+    padding: calc(var(--grid-step)) 0;
   }
   .skills-grid {
     grid-template-columns: 1fr 1fr;

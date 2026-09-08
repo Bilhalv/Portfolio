@@ -6,7 +6,9 @@
    Grid backdrop
    --------------------------------------------------------------------------- */
 #decorations {
-  position: fixed;
+  /* Absolute over the full document (body is position: relative) so the grid
+     and sparkles scroll with the page and stay locked to the same lattice. */
+  position: absolute;
   inset: 0;
   z-index: 0;
   overflow: hidden;
@@ -28,13 +30,14 @@
 .ambient-line {
   position: absolute;
   z-index: 1;
-  width: 20rem;
+  width: 1px;
   height: 1px;
   opacity: 0;
   pointer-events: none;
-  /* Start off-canvas; each variant picks a sign/direction via its keyframes. */
-  transform: translate3d(-120vw, 0, 0);
-  animation: horizontal-tracer 25s linear infinite;
+  /* Animation name/duration/delay are set per-line in JS (random speed and
+     negative start delay); these two props are shared by every tracer. */
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
 }
 .ambient-line::after {
   position: absolute;
@@ -43,51 +46,8 @@
   box-shadow: 0 0 10px color-mix(in srgb, var(--line-color, var(--accent)) 55%, transparent);
   content: "";
 }
-.ambient-line-two,
-.ambient-line-four {
-  width: 1px;
-  height: 20rem;
-  transform: translate3d(0, -120vh, 0);
-  animation-name: vertical-tracer;
-}
-.ambient-line-two::after,
-.ambient-line-four::after {
-  background: linear-gradient(180deg, transparent, var(--line-color, var(--cyan)), transparent);
-}
-.ambient-line-one {
-  top: calc(var(--grid-step) * 2);
-  --line-color: var(--accent);
-}
-.ambient-line-two {
-  left: calc(var(--grid-step) * 3);
-  --line-color: var(--cyan);
-  animation-delay: -8s;
-  animation-duration: 20s;
-}
-.ambient-line-three {
-  top: calc(var(--grid-step) * 5);
-  width: 28rem;
-  --line-color: #c084fc;
-  animation-delay: -13s;
-  animation-duration: 26s;
-  animation-name: horizontal-tracer-reverse;
-  transform: translate3d(220vw, 0, 0);
-}
-.ambient-line-four {
-  left: calc(var(--grid-step) * 7);
-  height: 16rem;
-  --line-color: #818cf8;
-  animation-delay: -4s;
-  animation-duration: 23s;
-  animation-name: vertical-tracer-reverse;
-  transform: translate3d(0, 220vh, 0);
-}
-.ambient-line-five {
-  top: calc(var(--grid-step) * 9);
-  width: 16rem;
-  --line-color: var(--accent);
-  animation-delay: -10s;
-  animation-duration: 14s;
+.ambient-line.is-vertical::after {
+  background: linear-gradient(180deg, transparent, var(--line-color, var(--accent)), transparent);
 }
 
 /* ---------------------------------------------------------------------------
@@ -158,7 +118,9 @@
    Reduced motion
    --------------------------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
-  .ambient-line { animation: none; opacity: 0.08; transform: none; }
+  /* Under reduced motion the JS skips the animation entirely, so each line
+     renders as a faint static lane on its grid row/column. */
+  .ambient-line { opacity: 0.08; }
   .grid-dot { transition: none; }
   .grid-dot.is-lit { opacity: 0.12; transform: none; }
 }

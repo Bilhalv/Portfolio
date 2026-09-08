@@ -1,7 +1,8 @@
 // Background decoration system.
-// Draws an SVG sparkle on random points of the --grid-step lattice, plus a few
-// slow "tracer" lines, all inside #decorations (behind the page content).
-// Behavior is tunable via decorations/config.js.
+// Draws an SVG sparkle on random points of the --grid-step lattice, plus a
+// configurable number of tracer lines on random grid rows/columns, all inside
+// #decorations (behind the page content). Behavior is tunable via
+// decorations/config.js.
 
 const decorationRoot = document.getElementById("decorations");
 const config = window.decorationConfig;
@@ -27,20 +28,51 @@ const timing = config.dots;
 // ---------------------------------------------------------------------------
 // Ambient tracer lines
 // ---------------------------------------------------------------------------
-const lineMarkup = [
-  ["ambient-line-one", config.linePasses.default],
-  ["ambient-line-two", config.linePasses.vertical],
-  ["ambient-line-three", config.linePasses.reverseHorizontal],
-  ["ambient-line-four", config.linePasses.reverseVertical],
-  ["ambient-line-five", config.linePasses.slow],
-];
+// Rendered exactly like the sparkles: a configurable number of lines, each
+// snapped to a random grid row (horizontal) or column (vertical), with a
+// random speed (duration), random negative start delay, random length and a
+// cycled color. Under reduced motion the animation is skipped, so only the
+// static lanes are placed.
+const randBetween = (min, max) => min + Math.random() * (max - min);
+const linesConfig = config.lines;
 
-lineMarkup.forEach(([className, frequency]) => {
+const lines = Array.from({ length: linesConfig.count }, (_, index) => {
   const line = document.createElement("span");
-  line.className = `ambient-line ${className}`;
-  line.style.animationDuration = `${frequency.duration}s`;
-  line.style.animationDelay = `${frequency.delay}s`;
+  const horizontal = Math.random() < linesConfig.horizontalShare;
+  const reverse = Math.random() < 0.5;
+  const length = randBetween(linesConfig.minLength, linesConfig.maxLength);
+
+  line.className = `ambient-line ${horizontal ? "is-horizontal" : "is-vertical"}`;
+  line.style.setProperty("--line-color", linesConfig.colors[index % linesConfig.colors.length]);
+  line.style.width = horizontal ? `${length * gridStep}px` : "1px";
+  line.style.height = horizontal ? "1px" : `${length * gridStep}px`;
+
+  if (!reducedMotion) {
+    line.style.animationName = horizontal
+      ? (reverse ? "horizontal-tracer-reverse" : "horizontal-tracer")
+      : (reverse ? "vertical-tracer-reverse" : "vertical-tracer");
+    line.style.animationDuration = `${randBetween(linesConfig.minDuration, linesConfig.maxDuration)}s`;
+    line.style.animationDelay = `-${randBetween(0, linesConfig.maxDelay)}s`;
+    // Start off-canvas so the first frame doesn't flash at the origin.
+    line.style.transform = horizontal
+      ? `translate3d(${reverse ? "220vw" : "-120vw"}, 0, 0)`
+      : `translate3d(0, ${reverse ? "220vh" : "-120vh"}, 0)`;
+  }
+
+  // A horizontal line rides one grid row somewhere down the full page; a
+  // vertical line rides one grid column somewhere across the viewport.
+  const place = () => {
+    if (horizontal) {
+      const cellsTall = Math.max(1, Math.ceil(document.documentElement.scrollHeight / gridStep));
+      line.style.top = `${Math.floor(Math.random() * cellsTall) * gridStep}px`;
+    } else {
+      const cellsWide = Math.max(1, Math.floor(window.innerWidth / gridStep));
+      line.style.left = `${Math.floor(Math.random() * cellsWide) * gridStep}px`;
+    }
+  };
+  place();
   decorationRoot.append(line);
+  return { place };
 });
 
 // ---------------------------------------------------------------------------
@@ -80,10 +112,11 @@ const dots = Array.from({ length: dotCount }, (_, index) => {
   return dot;
 });
 
-// Random grid joint (multiple of gridStep) within the visible viewport.
+// Random grid joint (multiple of gridStep). x spans the viewport, y spans the
+// full document height so sparkles appear throughout the (scrollable) page.
 const randomJoint = () => ({
   x: Math.floor(Math.random() * Math.max(1, Math.floor(window.innerWidth / gridStep))) * gridStep,
-  y: Math.floor(Math.random() * Math.max(1, Math.ceil(window.innerHeight / gridStep))) * gridStep,
+  y: Math.floor(Math.random() * Math.max(1, Math.ceil(document.documentElement.scrollHeight / gridStep))) * gridStep,
 });
 
 const placeDot = (dot) => {
@@ -137,6 +170,9 @@ dots.forEach((dot) => {
   startDot(dot);
 });
 
-// On resize the lattice moves under the dots, so relocate them all; stagger the
-// first light-up so they don't all flash at once.
-window.addEventListener("resize", () => dots.forEach((dot) => startDot(dot, false)));
+// On resize the lattice moves under the dots AND lines, so relocate them all;
+// stagger the first light-up so the dots don't all flash at once.
+window.addEventListener("resize", () => {
+  dots.forEach((dot) => startDot(dot, false));
+  lines.forEach((line) => line.place());
+});

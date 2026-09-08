@@ -4,36 +4,33 @@ window.decorationConfig = {
   // the same lattice (sparkles sit on grid "joints").
   gridStep: 64,
 
-  // Ambient tracer lines. Each entry maps to one .ambient-line element:
-  //   default           -> line one   (horizontal, upper area)
-  //   vertical          -> line two   (vertical, left area)
-  //   reverseHorizontal -> line three (horizontal, reverse direction)
-  //   reverseVertical   -> line four  (vertical, reverse direction)
-  //   slow              -> line five  (horizontal, short + fast-ish)
-  //   duration: length of one full animation loop, in seconds.
-  //   delay:    negative values start the line mid-loop so the tracers feel
-  //             continuous and desynchronized instead of starting together.
-  linePasses: {
-    default: {
-      duration: 25,
-      delay: 0,
-    },
-    vertical: {
-      duration: 25,
-      delay: -8,
-    },
-    reverseHorizontal: {
-      duration: 25,
-      delay: -13,
-    },
-    reverseVertical: {
-      duration: 25,
-      delay: -5,
-    },
-    slow: {
-      duration: 25,
-      delay: -10,
-    },
+  // Ambient tracer lines. Rendered like the sparkles: N configurable lines,
+  // each snapped to a random grid row (horizontal) or column (vertical) with a
+  // random speed, random negative start delay, random length and a cycled
+  // color, so no two loads look identical.
+  lines: {
+    // How many tracer lines are rendered.
+    count: 5,
+
+    // Random animation speed range (one full cross-screen loop), in seconds.
+    minDuration: 14,
+    maxDuration: 26,
+
+    // Random negative start delay (max magnitude), in seconds. Negative values
+    // start lines mid-loop so the tracers feel continuous and desynchronized
+    // instead of starting together.
+    maxDelay: 12,
+
+    // Random line length, in grid cells (gridStep px each).
+    minLength: 6,
+    maxLength: 12,
+
+    // Share (0-1) of lines that travel horizontally along a grid row; the
+    // remaining lines travel vertically along a grid column.
+    horizontalShare: 0.6,
+
+    // Line glow colors, cycled per line. CSS variables or any CSS color work.
+    colors: ["var(--accent)", "var(--cyan)", "#c084fc", "#818cf8"],
   },
 
   dots: {
